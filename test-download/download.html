@@ -1,0 +1,264 @@
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="download.css">
+  </head>
+  <body>
+    <div id="outer">
+    <div id="quick-download-selection">
+      Scala IDE 3.0.2
+      <div>
+      <div id="latest-bundle" class="latest-box" onClick="selectLatestBundle()">
+        All-in-one bundle
+      </div>
+      <div id="latest-update-site" class="latest-box" onClick="selectLatestUpdateSite()">
+        Update site
+      </div>
+      </div>
+      <div><div class="more-options" onClick="moreOptions()">↓ more options ↓</div></div>
+      <div id="build-description-quick" class="build-description">
+      </div>
+    </div>
+    <div id="all-download-selection">
+      <div id="download-selection-box-2">
+      </div>
+      <div><div class="more-options" onClick="lessOptions()">↑ less options ↑</div></div>
+      <div id="build-description-all" class="build-description">
+      </div>
+    </div>
+    </div>
+  </body>
+  <script>
+    function addToArray(a, ele) {
+      if (a.indexOf(ele) == -1) {
+        a.push(ele)
+      }
+    }
+
+    function build(type, scala, eclipse, scalaIde, description) {
+      this.type=type;
+      this.scala=scala;
+      this.eclipse=eclipse;
+      this.scalaIde=scalaIde;
+      this.description=description;
+    }
+
+    var noneBuild = new build("", "", "", "", "No build available");
+    var latestBundle = new build("bundle", "210", "juno", "302", "Scala IDE 3.0.2 all-in-one bundle for Scala 2.10.2 on Eclipse Kepler (4.3)");
+    var latestUpdateSite = new build("stable", "210", "juno", "302", "Scala IDE 3.0.2 update site for Scala 2.10.2 for Eclipse Juno/Kepler");
+
+    var builds=[
+      latestBundle,
+      new build("bundle", "210", "indigo", "301", "Scala IDE 3.0.2 all-in-on bundle for Scala 2.10.2 on Eclipse Indigo (3.7)"),
+      new build("bundle", "29", "indigo", "300", "Scala IDE 3.0.0 all-in-on bundle for Scala 2.9.3 on Eclipse Indigo (3.7)"),
+      latestUpdateSite,
+      new build("stable", "210", "indigo", "302", "Scala IDE 3.0.2 update site for Scala 2.10.2 for Eclipse Indigo"),
+      new build("stable", "29", "juno", "300", "Scala IDE 3.0.0 update site for Scala 2.9.3 for Eclipse Juno/Kepler"),
+      new build("stable", "29", "indigo", "300", "Scala IDE 3.0.0 update site for Scala 2.9.3 for Eclipse Indigo"),
+      new build("stable", "28", "helios", "200", "Scala IDE 2.0.0 update site for Scala 2.8.3 for Eclipse Helios"),
+      new build("dev", "211", "juno", "400", "Scala IDE 4.0.0-B2 update site for Scala 2.11.0-M4 for Eclipse Juno/Kepler"),
+      new build("nightly", "210", "juno", "400", "Scala IDE 4.0.x-nightly update site for Scala 2.10.x-nightly for Eclipse Juno/Kepler"),
+      new build("nightly", "211", "juno", "400", "Scala IDE 4.0.x-nightly update site for Scala 2.11.x-nightly for Eclipse Juno/Kepler"),
+      new build("nightly", "210", "juno", "302", "Scala IDE 3.0.x-nightly update site for Scala 2.10.x-nightly for Eclipse Juno/Kepler"),
+      new build("nightly", "210", "indigo", "302", "Scala IDE 3.0.x-nightly update site for Scala 2.10.x-nightly for Eclipse Indigo"),
+    ];
+
+    function item(id, label) {
+      this.id = id;
+      this.label = label;
+    }
+
+    var types = [
+      new item("bundle", "All-in-One Bundle"),
+      new item("stable", "Stable update site"),
+      new item("dev", "Milestone update site"),
+      new item("nightly", "Nightly update site")
+    ];
+    var scalas = [
+      new item("211", "2.11.x"),
+      new item("210", "2.10.x"),
+      new item("29", "2.9.x"),
+      new item("28", "2.8.x")
+    ];
+    var eclipses = [
+      new item("juno", "Juno/Kepler 4.2/4.3"),
+      new item("indigo", "Indigo 3.7"),
+      new item("helios", "Helios 3.6")
+    ];
+    var scalaIdes = [
+      new item("400", "4.0.x"),
+      new item("302", "3.0.2"),
+      new item("300", "3.0.0"),
+      new item("200", "2.0.0")
+    ];
+
+    var selectedType = "";
+    var selectedScala = "";
+    var selectedEclipse = "";
+    var selectedScalaIDE = "";
+
+    function selectType(value) {
+      selectedType = value;
+      refreshDownloadBox();
+    }
+
+    function unselectType(value) {
+      selectedType = "";
+      refreshDownloadBox();
+    }
+
+    function selectScala(value) {
+      selectedScala = value;
+      refreshDownloadBox();
+    }
+
+    function unselectScala(value) {
+      selectedScala = "";
+      refreshDownloadBox();
+    }
+
+    function selectEclipse(value) {
+      selectedEclipse = value;
+      refreshDownloadBox();
+    }
+
+    function unselectEclipse(value) {
+      selectedEclipse = "";
+      refreshDownloadBox();
+    }
+
+    function selectScalaIDE(value) {
+      selectedScalaIDE = value;
+      refreshDownloadBox();
+    }
+
+    function unselectScalaIDE(value) {
+      selectedScalaIDE = "";
+      refreshDownloadBox();
+    }
+
+    function divItems(items, prefered, selected, possible, idPrefix, functionSuffix, cssClass) {
+      var txt = "";
+
+      var divNotSelected = "";
+      if (selected != "") {
+        divNotSelected = " not-selected";
+      }
+
+      for (i in items) {
+
+        var id = items[i].id
+
+
+        var divClass = cssClass;
+        var imgClass = "";
+        var onClickAction = "";
+        if (id == selected) {
+          onClickAction = "unselect" + functionSuffix
+          imgClass = "tick-visible";
+        } else {
+          if (id == prefered) {
+            divClass = divClass + ' download-highlight';
+          }
+          if (possible.indexOf(id) == -1) {
+            divClass = divClass + " not-selected";
+          }
+          onClickAction = "select" + functionSuffix
+          imgClass = "tick-invisible";
+        }
+
+        txt = txt +
+          '<div id="' + idPrefix + '-' + id + '" class="' + divClass + '" onClick="' + onClickAction + '(\'' + id + '\')">' + 
+          '<img class="' + imgClass + '" src="images/black-tick.png"/>' +
+          items[i].label +
+          '</div>';
+      }
+      return txt;
+    }
+
+    function isEqualsIfDefined(expected, actual) {
+      if (expected == "") {
+        return true;
+      } else {
+        return expected == actual;
+      }
+    }
+
+    function filterBuilds() {
+      var filteredBuilds = new Array();
+
+      for (i in builds) {
+        var b = builds[i];
+        if (isEqualsIfDefined(selectedType, b.type) &&
+            isEqualsIfDefined(selectedScala, b.scala) &&
+            isEqualsIfDefined(selectedEclipse, b.eclipse) &&
+            isEqualsIfDefined(selectedScalaIDE, b.scalaIde)) {
+          filteredBuilds.push(b);
+        }
+      }
+      return filteredBuilds;
+    }
+
+    function mapUniqueIds(builds, f) {
+      var res = new Array();
+      for (i in builds) {
+        var e = f(builds[i]);
+        if (res.indexOf(e) == -1) {
+          res.push(e);
+        }
+      }
+      return res;
+    }
+
+    function refreshDownloadBox() {
+      var filteredBuilds = filterBuilds();
+
+      var preferedBuild = 0;
+      if (filteredBuilds.length == 0) {
+        preferedBuild = noneBuild
+      } else {
+        preferedBuild = filteredBuilds[0];
+      }
+      var content =
+        '<div id="download-type-box" class="download-box">' +
+        '  <div class="download-title">Download type</div>' +
+        divItems(types, preferedBuild.type, selectedType, mapUniqueIds(filteredBuilds, function(b) {return b.type;}), "type", "Type", "download-type") +
+        '</div>' +
+        '<div id="scala-version-box" class="download-box">' +
+        '  <div class="download-title">Scala version</div>' +
+        divItems(scalas, preferedBuild.scala, selectedScala, mapUniqueIds(filteredBuilds, function(b) {return b.scala;}), "scala", "Scala", "scala-version") +
+        '</div>' +
+        '<div id="eclipse-version-box" class="download-box">' +
+        '  <div class="download-title">Eclipse version</div>' +
+        divItems(eclipses, preferedBuild.eclipse, selectedEclipse, mapUniqueIds(filteredBuilds, function(b) {return b.eclipse}), "eclipse", "Eclipse", "eclipse-version") +
+        '</div>' +
+        '<div id="scala-ide-version-box" class="download-box">' +
+        '  <div class="download-title">Scala IDE version</div>' +
+        divItems(scalaIdes, preferedBuild.scalaIde, selectedScalaIDE, mapUniqueIds(filteredBuilds, function(b) {return b.scalaIde}), "scala-ide", "ScalaIDE", "scala-ide-version") +
+        '</div>';
+
+      document.getElementById("download-selection-box-2").innerHTML = content;
+      document.getElementById("build-description-all").innerHTML = preferedBuild.description;
+    }
+
+    function moreOptions() {
+      document.getElementById("quick-download-selection").style.display = "none";
+      document.getElementById("all-download-selection").style.display = "block";
+    }
+
+    function lessOptions() {
+      document.getElementById("quick-download-selection").style.display = "block";
+      document.getElementById("all-download-selection").style.display = "none";
+    }
+
+    function selectLatestBundle() {
+      document.getElementById("build-description-quick").innerHTML = latestBundle.description;
+    }
+
+    function selectLatestUpdateSite() {
+      document.getElementById("build-description-quick").innerHTML = latestUpdateSite.description;
+    }
+
+    refreshDownloadBox();
+
+  </script>
+</html>

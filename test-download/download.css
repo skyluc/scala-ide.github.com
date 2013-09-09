@@ -1,0 +1,99 @@
+div {
+  padding: 1px;
+}
+
+
+.build-description {
+  padding-top: 25px;
+  text-align: left;
+}
+
+.more-options {
+  display: inline-block;
+  background: black;
+  color: white;
+}
+
+/* quick selection */
+
+#outer {
+  width: 50em;
+}
+
+#quick-download-selection {
+  background: #DDDDDD;
+  text-align: center;
+}
+
+#latest-bundle {
+  background: #44FF44;
+}
+
+#latest-update-site {
+  background: #FF4444;
+}
+
+.latest-box {
+  display: inline-block;
+  width: 30%;
+  padding-top: 3em;
+  padding-bottom: 3em;
+  margin-left: 7%;
+  margin-right: 7%;
+}
+
+/* all selection */
+
+#all-download-selection {
+  background: #DDDDDD;
+  text-align: center;
+  display: none;
+}
+
+.download-box {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.download-type {
+  background: #44FF44;
+  margin: 1px;
+  padding: 2px;
+}
+
+.scala-version {
+  background: #FF4444;
+  margin: 1px;
+  padding: 2px;
+}
+
+.eclipse-version {
+  background: #FF44FF;
+  margin: 1px;
+  padding: 2px;
+}
+
+.scala-ide-version {
+  background: #44FFFF;
+  margin: 1px;
+  padding: 2px;
+}
+
+.download-highlight {
+  padding: 0px;
+  border-width: 2px;
+  border-style: solid;
+}
+
+.not-selected {background: #999999;}
+
+.tick-visible {
+  width: 1em;
+  height: 1em;
+}
+
+.tick-invisible {
+  width: 1em;
+  height: 1em;
+  opacity: 0;
+}
